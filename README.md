@@ -1,3 +1,3 @@
-# CG_Proyect_2023
+# CG_Project_2023
 
 TETRIS game using OpenGL
