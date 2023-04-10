@@ -1,6 +1,6 @@
 #pragma once
 #include "GL/glut.h"
-#include "square.h"
+#include "shape.h"
 #include <iostream>
 
 using namespace std;
@@ -20,5 +20,5 @@ private:
     static int height;
     static int width;
     static float fps;
-    static square tile;
+    static shape tetromino;
 };

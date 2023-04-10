@@ -4,7 +4,7 @@
 int game::height = 600;
 int game:: width = 800;
 float game::fps = 60.f;
-square game::tile;
+shape game::tetromino(2);
 
 game::game(){
 
@@ -46,7 +46,7 @@ void game::draw(){
   glTranslatef(400, 300, 0);
 
   board();
-  tile.draw();
+  tetromino.draw();
   //tile.update();
   //cout << "It's working!!"<<endl;
   glPopMatrix();
@@ -56,7 +56,21 @@ void game::draw(){
 
 void game::keyboard(unsigned char key, int x, int y){
 
-
+    switch (key)
+    {
+    case 'A': case 'a':
+        tetromino.set_x(-30);
+      break;
+    case 'D': case 'd':
+        tetromino.set_x(30);
+      break;
+    case 'S': case 's':
+        tetromino.set_y(-30);
+      break;
+    case ' ':
+        tetromino.rotate();
+      break;
+    }
 
 
 }
@@ -71,7 +85,7 @@ void game::update(){
         if(glutGet(GLUT_ELAPSED_TIME) > update_square + 1000.f){
 
             update_square = glutGet(GLUT_ELAPSED_TIME);
-            tile.update();
+            tetromino.update();
         }
 
         time_passed = glutGet(GLUT_ELAPSED_TIME);
