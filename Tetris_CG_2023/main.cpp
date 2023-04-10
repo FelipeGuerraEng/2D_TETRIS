@@ -1,16 +1,15 @@
 #include <GL/glut.h>
-
+#include "game.h"
 
 
 int main (int argc, char** argv) {
 
-    //inicializa la librería GLUT
     glutInit(&argc, argv);
 
-    //Objeto juego
+ 
+    game gameplay;
 
-
-    glutMainLoop();//entra en loop de reconocimiento de eventos
+    glutMainLoop();
 
     return 0;
 
