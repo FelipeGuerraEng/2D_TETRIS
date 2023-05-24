@@ -7,6 +7,7 @@ int game::score = 0;
 float game::fps = 60.f;
 float game::update_time = 1000.f;
 shape game::tetromino(rand()%6+1);
+//bool game::canMoveSideways = true;  
 //shape game::tetromino(6);
 list<square>game::squares;
 
@@ -51,6 +52,15 @@ void game::drawScore() {
     for (char c : scoreStr) {
         glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, c);
     }
+}
+
+void game::drawGameOver() {
+  glColor3f(1.0f, 0.0f, 0.0f);  // Set text color (red)
+  glRasterPos2i(220, 220);  // Set text position
+  std::string gameOverStr = "Perdiste";
+  for (char c : gameOverStr) {
+      glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, c);
+  }
 }
 
 
@@ -107,13 +117,14 @@ void game::update(){
             check_collision();
             update_square = glutGet(GLUT_ELAPSED_TIME);
             if(tetromino.update()){
-
+             
               for (int i=0; i<4; i++){
 
                   squares.push_back(square(tetromino.calculate_pos_x(i),tetromino.calculate_pos_y(i)));
 
               }
               check_rows();
+              //tetromino.hasLanded = true;
               tetromino = shape(rand()%6+1);
 
             }
@@ -185,7 +196,7 @@ void game::check_collision(){
          
       }
       if (collision){
-
+        
         for (int i=0; i<4; i++){
 
             squares.push_back(square(tetromino.calculate_pos_x(i),tetromino.calculate_pos_y(i)));
@@ -247,11 +258,8 @@ void game::check_rows(){
               }
               
             }
-
             score += 100;
-
         }
     }
-
 
 }

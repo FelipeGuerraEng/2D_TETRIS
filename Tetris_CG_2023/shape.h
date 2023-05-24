@@ -18,6 +18,7 @@ class shape{
       double calculate_pos_y(unsigned short num);
       float radtodeg(float radians){return radians*180/3.14;}
       float degtorad(float degrees){return degrees*3.14/180;}
+      bool willCollide;
 
   private: 
       square tile[4];
@@ -25,5 +26,6 @@ class shape{
       unsigned short rotation;
       double pos_x;
       double pos_y;
+      
 
 };

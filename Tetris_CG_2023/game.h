@@ -20,6 +20,7 @@ public:
     static void check_collision();
     static void check_rows();
     static void drawScore();
+    static void drawGameOver();
 
 private:
 

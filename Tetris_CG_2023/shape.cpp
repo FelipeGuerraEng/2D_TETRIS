@@ -6,6 +6,7 @@ shape::shape(unsigned short num){
     rotation = 1;
     pos_x = 15;
     pos_y = 345;
+    willCollide = false;
 
     switch (id)
     {
@@ -50,30 +51,18 @@ shape::shape(unsigned short num){
 }
 
 bool shape::update(){
-
     bool collision = false;
 
     for (int i=0; i<4; i++){
-
-        if((int)calculate_pos_y(i) >-280){
-          
-         
-
-        }else {
-
-          collision = true;
+        if((int)calculate_pos_y(i) <= -280){
+            collision = true;
         }
-
     }
 
     if(!collision){
-
        pos_y-=30;
     }
-
     return collision;
-     
-
 }
 
 void shape::draw(){
@@ -113,38 +102,23 @@ void shape::draw(){
 }
 
 void shape::set_x(double x){
-
     bool collision = false;
 
-    if(x>0){
-
-      for (int i=0; i<4; i++){
-        
-          if(abs((int)calculate_pos_x(i)-130) < 15){
-
-            collision = true;
-            
-          }
-      }
-
-    }else{
-
-      for (int i=0; i<4; i++){
-        
-          if(abs((int)calculate_pos_x(i)+130) < 15){
-
-            collision = true;
-            
-          }
-      }
+    for (int i=0; i<4; i++){
+        if(x > 0){
+            if(abs((int)calculate_pos_x(i)-130) < 15){
+                collision = true;
+            }
+        } else {
+            if(abs((int)calculate_pos_x(i)+130) < 15){
+                collision = true;
+            }
+        }
     }
 
-    if (!collision){
-
-      pos_x+=x;
-
+    if (!collision && !willCollide){
+        pos_x+=x;
     }
-   
 }
 
 void shape::set_y(double y){
@@ -157,16 +131,30 @@ void shape::set_y(double y){
 }
 
 void shape::rotate(){
+    // Save current rotation state
+    int oldRotation = rotation;
 
     rotation++;
-
     if(rotation>4) rotation =1;
     for (int i=0; i<4; i++){
-
         tile[i].set_rotation(rotation);
-
     }
 
+    // Check for wall collision after rotation
+    bool collision = false;
+    for (int i=0; i<4; i++){
+        if(abs((int)calculate_pos_x(i)-130) < 15 || abs((int)calculate_pos_x(i)+130) < 15){
+            collision = true;
+        }
+    }
+
+    // If collision detected, revert to previous rotation state
+    if(collision){
+        rotation = oldRotation;
+        for (int i=0; i<4; i++){
+            tile[i].set_rotation(rotation);
+        }
+    }
 }
 
 double shape::get_angle_tetromino(unsigned short num){
